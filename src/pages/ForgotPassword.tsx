@@ -1,4 +1,7 @@
-import { Button } from "@/components/ui/button";
+import AppShell from "@/components/layout/AppShell";
+import TopAppBar from "@/components/layout/TopAppBar";  
+import PrimaryCTA from "@/components/shared/PrimaryCTA";
+import SecondaryLink from "@/components/shared/SecondaryLink";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
@@ -30,8 +33,10 @@ const ForgotPassword = () => {
 
   if (sent) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8">
-        <div className="w-full max-w-sm mx-auto text-center space-y-6">
+      <AppShell
+        topBar={<TopAppBar title="Check your email" />}
+      >
+        <div className="text-center space-y-6">
           <div className="w-20 h-20 bg-gradient-to-r from-primary-gradient to-primary-gradient-end rounded-full flex items-center justify-center mx-auto glow-teal">
             <Key className="w-8 h-8 text-primary-foreground" />
           </div>
@@ -45,77 +50,67 @@ const ForgotPassword = () => {
             </p>
           </div>
           
-          <Link to="/sign-in">
-            <Button variant="hero" size="lg" className="w-full">
+          <PrimaryCTA onClick={() => {}}>
+            <Link to="/sign-in" className="block w-full">
               Back to Sign In
-            </Button>
-          </Link>
+            </Link>
+          </PrimaryCTA>
         </div>
-      </div>
+      </AppShell>
     );
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8">
-      <div className="w-full max-w-sm mx-auto space-y-8">
-        
-        {/* Hero */}
-        <div className="text-center space-y-4">
-          <div className="flex justify-center mb-6">
-            <div className="w-20 h-20 bg-gradient-to-r from-primary-gradient to-primary-gradient-end rounded-full flex items-center justify-center glow-teal aura-pulse">
-              <Key className="w-8 h-8 text-primary-foreground" />
-            </div>
-          </div>
-          
-          <div className="space-y-2">
-            <h1 className="text-2xl font-semibold text-foreground">
-              Reset Password
-            </h1>
-            <p className="text-muted-foreground">
-              Enter your email to receive reset instructions
-            </p>
+    <AppShell
+      topBar={<TopAppBar title="Reset Password" />}
+    >
+      {/* Hero */}
+      <div className="text-center space-y-4">
+        <div className="flex justify-center mb-6">
+          <div className="w-20 h-20 bg-gradient-to-r from-primary-gradient to-primary-gradient-end rounded-full flex items-center justify-center glow-teal aura-pulse">
+            <Key className="w-8 h-8 text-primary-foreground" />
           </div>
         </div>
-
-        {/* Form */}
-        <form onSubmit={handleResetPassword} className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium text-foreground">
-              Email
-            </Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-input border-muted/30 focus:border-primary/50 text-foreground"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-
-          <Button 
-            type="submit"
-            variant="hero" 
-            size="lg" 
-            className="w-full"
-            disabled={loading}
-          >
-            {loading ? "Sending..." : "Send Reset Link"}
-          </Button>
-        </form>
-
-        {/* Link */}
-        <div className="text-center">
-          <Link 
-            to="/sign-in"
-            className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-          >
-            Back to Sign In
-          </Link>
+        
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold text-foreground">
+            Reset Password
+          </h1>
+          <p className="text-muted-foreground">
+            Enter your email to receive reset instructions
+          </p>
         </div>
       </div>
-    </div>
+
+      {/* Form */}
+      <form onSubmit={handleResetPassword} className="space-y-6">
+        <div className="space-y-2">
+          <Label htmlFor="email" className="text-sm font-medium text-foreground">
+            Email
+          </Label>
+          <Input
+            id="email"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-input border-muted/30 focus:border-primary/50 text-foreground"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <PrimaryCTA type="submit" loading={loading}>
+          {loading ? "Sending..." : "Send Reset Link"}
+        </PrimaryCTA>
+      </form>
+
+      {/* Link */}
+      <div className="text-center">
+        <SecondaryLink to="/sign-in">
+          Back to Sign In
+        </SecondaryLink>
+      </div>
+    </AppShell>
   );
 };
 

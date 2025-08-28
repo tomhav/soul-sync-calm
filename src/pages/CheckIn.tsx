@@ -1,10 +1,152 @@
+import AppShell from "@/components/layout/AppShell";
+import TopAppBar from "@/components/layout/TopAppBar";
+import GlowCard from "@/components/shared/GlowCard";
+import ChipToggle from "@/components/shared/ChipToggle";
+import SliderTeal from "@/components/shared/SliderTeal";
+import PrimaryCTA from "@/components/shared/PrimaryCTA";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import heroCheckin from "@/assets/hero-checkin.jpg";
+
+const CheckIn = () => {
+  const navigate = useNavigate();
+  const [mood, setMood] = useState(3);
+  const [sleepHours, setSleepHours] = useState([7]);
+  const [lateNightUse, setLateNightUse] = useState<boolean | null>(null);
+  const [pressureToday, setPressureToday] = useState<boolean | null>(null);
+
+  const handleCreatePlan = () => {
+    const checkInData = {
+      mood,
+      sleep_hours: sleepHours[0],
+      late_night_use: lateNightUse,
+      pressure: pressureToday,
+      date: new Date().toISOString().split('T')[0]
+    };
+
+    console.log('quietload.checkin_submit', checkInData);
+    navigate('/plan', { state: { checkInData } });
+  };
+
+  const handleSkip = () => {
+    navigate('/dashboard');
+  };
+
+  const moodEmojis = ['😔', '😟', '😐', '😊', '😄'];
+  const moodLabels = ['Very Low', 'Low', 'Neutral', 'Good', 'Great'];
+
+  return (
+    <AppShell
+      topBar={<TopAppBar title="Check-in" />}
+    >
+      {/* Hero */}
+      <div className="text-center space-y-4">
+        <div className="flex justify-center mb-6">
+          <img 
+            src={heroCheckin} 
+            alt="Glowing journal with pen"
+            className="w-28 h-28 object-cover rounded-full glow-teal aura-pulse"
+          />
+        </div>
+        
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold text-foreground">
+            Today's check-in
+          </h1>
+          <p className="text-muted-foreground">
+            A quick moment to reflect
+          </p>
+        </div>
+      </div>
+
+      {/* Mood */}
+      <GlowCard delay={1}>
+        <div className="space-y-4">
+          <Label className="text-sm font-medium text-foreground">How's your mood today?</Label>
+          <div className="flex justify-between items-center">
+            {moodEmojis.map((emoji, index) => (
+              <button
+                key={index}
+                onClick={() => setMood(index + 1)}
+                className={`w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all duration-200 ${
+                  mood === index + 1 
+                    ? "bg-primary/20 scale-110 ring-2 ring-primary/40" 
+                    : "hover:bg-muted/20 hover:scale-105"
+                }`}
+              >
+                {emoji}
+              </button>
+            ))}
+          </div>
+          <p className="text-center text-sm text-muted-foreground">
+            {moodLabels[mood - 1]}
+          </p>
+        </div>
+      </GlowCard>
+
+      {/* Sleep */}
+      <GlowCard delay={2}>
+        <SliderTeal
+          label="How much sleep did you get?"
+          value={sleepHours}
+          onChange={setSleepHours}
+          max={12}
+          min={0}
+          step={0.5}
+          unit="h"
+        />
+      </GlowCard>
+
+      {/* Late Night Use */}
+      <GlowCard delay={3}>
+        <div className="space-y-4">
+          <Label className="text-sm font-medium text-foreground">
+            Did you use devices late into the night?
+          </Label>
+          <ChipToggle
+            value={lateNightUse}
+            onChange={setLateNightUse}
+          />
+        </div>
+      </GlowCard>
+
+      {/* Pressure Today */}
+      <GlowCard delay={4}>
+        <div className="space-y-4">
+          <Label className="text-sm font-medium text-foreground">
+            Feeling pressured or overwhelmed today?
+          </Label>
+          <ChipToggle
+            value={pressureToday}
+            onChange={setPressureToday}
+          />
+        </div>
+      </GlowCard>
+
+      {/* Actions */}
+      <div className="space-y-3">
+        <PrimaryCTA 
+          onClick={handleCreatePlan}
+          disabled={lateNightUse === null || pressureToday === null}
+        >
+          Create today's plan
+        </PrimaryCTA>
+        <Button 
+          variant="quiet" 
+          size="lg" 
+          className="w-full"
+          onClick={handleSkip}
+        >
+          Skip for now
+        </Button>
+      </div>
+    </AppShell>
+  );
+};
+
+export default CheckIn;
 
 const CheckIn = () => {
   const navigate = useNavigate();

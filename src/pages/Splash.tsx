@@ -1,4 +1,6 @@
-import { Button } from "@/components/ui/button";
+import AppShell from "@/components/layout/AppShell";
+import PrimaryCTA from "@/components/shared/PrimaryCTA";
+import SecondaryLink from "@/components/shared/SecondaryLink";
 import { useNavigate } from "react-router-dom";
 import heroSplash from "@/assets/hero-splash.jpg";
 
@@ -9,54 +11,45 @@ interface SplashProps {
 const Splash = ({ onPrivacyClick }: SplashProps) => {
   const navigate = useNavigate();
 
+  const handleGetStarted = () => {
+    navigate('/consent');
+  };
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-8 relative overflow-hidden">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-card/20" />
-      
-      {/* Hero Image */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-sm mx-auto">
-        <div className="mb-8 relative">
+    <AppShell>
+      {/* Hero Section */}
+      <div className="text-center space-y-6 flex-1 flex flex-col justify-center">
+        <div className="flex justify-center mb-8">
           <img 
             src={heroSplash} 
-            alt="Peaceful meditation silhouette"
+            alt="Man with headphones in peaceful pose"
             className="w-32 h-32 object-cover rounded-full glow-teal aura-pulse"
           />
         </div>
-
-        {/* Brand */}
-        <div className="mb-12 space-y-3">
-          <h1 className="text-4xl font-bold text-foreground font-inter">
+        
+        <div className="space-y-3">
+          <h1 className="text-2xl font-bold text-foreground">
             Quiet Load
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground">
             Quiet, but not alone.
           </p>
         </div>
+      </div>
 
-        {/* CTA */}
-        <div className="w-full space-y-4">
-          <Button 
-            variant="hero" 
-            size="lg" 
-            className="w-full"
-            onClick={() => navigate('/consent')}
-          >
-            Get Started
-          </Button>
+      {/* CTA Section */}
+      <div className="space-y-4">
+        <PrimaryCTA onClick={handleGetStarted}>
+          Get Started
+        </PrimaryCTA>
+        
+        <div className="text-center">
+          <SecondaryLink onClick={onPrivacyClick}>
+            Privacy
+          </SecondaryLink>
         </div>
       </div>
-
-      {/* Footer */}
-      <div className="absolute bottom-8 left-0 right-0 text-center z-10">
-        <button 
-          onClick={onPrivacyClick}
-          className="text-muted-foreground hover:text-foreground transition-colors underline text-sm"
-        >
-          Privacy
-        </button>
-      </div>
-    </div>
+    </AppShell>
   );
 };
 

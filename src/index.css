@@ -8,58 +8,77 @@
 
 @layer base {
   :root {
-    /* Quiet Load Color Palette */
-    --background: 215 100% 2%; /* #05070A - deep black */
+    /* Global Design Tokens - Quiet Load */
+    
+    /* Background gradient: #05070A → #0B1220 vertical */
+    --bg-base: linear-gradient(180deg, #05070A 0%, #0B1220 100%);
+    --background: 215 100% 2%; /* #05070A */
     --background-gradient: 215 100% 2%; /* #05070A */
-    --background-gradient-end: 218 50% 7%; /* #0B1220 - deep navy */
-    --foreground: 0 0% 100%; /* #FFFFFF - pure white */
+    --background-gradient-end: 218 50% 7%; /* #0B1220 */
+    --foreground: 0 0% 100%; /* #FFFFFF - text.primary */
     
-    --card: 218 50% 7%; /* #0B1220 - deep navy for cards */
-    --card-foreground: 0 0% 100%; /* #FFFFFF */
+    /* Cards - dark surface with subtle glow */
+    --card: 218 50% 7%; /* #0B1220 */
+    --card-foreground: 0 0% 100%;
     
-    --popover: 218 50% 7%;
-    --popover-foreground: 0 0% 100%;
-    
-    /* Primary: Teal to Sage Gradient */
-    --primary: 200 35% 19%; /* #1B3A4B - teal base */
-    --primary-gradient: 200 35% 19%; /* #1B3A4B */
-    --primary-gradient-end: 160 25% 49%; /* #6BA292 - sage */
+    /* Accent primary: gradient(#1B3A4B → #6BA292) */
+    --accent-primary-start: 200 35% 19%; /* #1B3A4B */
+    --accent-primary-end: 160 25% 49%; /* #6BA292 */
+    --primary: 200 35% 19%;
+    --primary-gradient: 200 35% 19%;
+    --primary-gradient-end: 160 25% 49%;
     --primary-foreground: 0 0% 100%;
     
-    /* Secondary: Violet accent */
-    --secondary: 250 77% 66%; /* #6C5CE7 - violet */
+    /* Accent secondary: #6C5CE7 (edge glows only) */
+    --accent-secondary: 250 77% 66%; /* #6C5CE7 */
+    --secondary: 250 77% 66%;
     --secondary-foreground: 0 0% 100%;
     
-    /* Muted text */
-    --muted: 0 0% 63%; /* #A0A0A0 - muted gray */
+    /* Text colors */
+    --text-primary: 0 0% 100%; /* #FFFFFF */
+    --text-muted: 0 0% 63%; /* #A0A0A0 */
+    --muted: 0 0% 63%;
     --muted-foreground: 0 0% 63%;
     
-    /* Accent (same as primary for consistency) */
-    --accent: 200 35% 19%;
-    --accent-foreground: 0 0% 100%;
-    
-    /* Error state */
-    --destructive: 0 100% 67%; /* #FF5555 - red for toasts */
+    /* Error: #FF5555 for toasts only */
+    --error: 0 100% 67%; /* #FF5555 */
+    --destructive: 0 100% 67%;
     --destructive-foreground: 0 0% 100%;
     
-    /* UI Elements */
-    --border: 0 0% 20%; /* Subtle borders */
-    --input: 0 0% 15%; /* Input backgrounds */
-    --ring: 200 35% 19%; /* Focus rings - teal */
+    /* Typography - Inter font */
+    --font-h1: 22px;
+    --font-h2: 18px;
+    --font-body: 14px;
+    --font-caption: 12px;
     
-    /* Radius system */
-    --radius: 1rem; /* 16px base radius */
-    --radius-lg: 1.25rem; /* 20px for larger elements */
-    --radius-pill: 9999px; /* Pill shape for CTAs */
+    /* Corners: 20px for cards, pill for CTAs */
+    --corners-card: 20px;
+    --corners-pill: 9999px;
+    --radius: 1rem;
+    --radius-lg: 1.25rem;
+    --radius-pill: 9999px;
     
-    /* Glow effects */
+    /* Shadows: soft teal/violet aura */
+    --shadow-teal: 0 0 40px hsl(var(--accent-primary-start) / 0.3);
+    --shadow-violet: 0 0 40px hsl(var(--accent-secondary) / 0.2);
     --glow-teal: 200 35% 19%;
     --glow-violet: 250 77% 66%;
     --glow-size: 40px;
     
-    /* Animation durations */
-    --aura-duration: 4s;
+    /* Motion: aura pulse 4-6s, card slide+fade (stagger 60ms), CTA tap scale 1.05/180ms */
+    --aura-duration: 5s;
     --card-stagger: 60ms;
+    --tap-scale: 1.05;
+    --tap-duration: 180ms;
+    
+    /* UI Elements */
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 200 35% 19%;
+    --accent: 200 35% 19%;
+    --accent-foreground: 0 0% 100%;
+    --popover: 218 50% 7%;
+    --popover-foreground: 0 0% 100%;
   }
 }
 
@@ -70,8 +89,9 @@
   
   body {
     @apply bg-background text-foreground font-inter;
-    background: linear-gradient(135deg, hsl(var(--background-gradient)) 0%, hsl(var(--background-gradient-end)) 100%);
+    background: linear-gradient(180deg, #05070A 0%, #0B1220 100%);
     min-height: 100vh;
+    font-size: var(--font-body);
   }
 }
 
